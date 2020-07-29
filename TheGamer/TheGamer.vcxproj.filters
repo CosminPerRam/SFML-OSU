@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\imgui">
+      <UniqueIdentifier>{9f94a0b0-0aee-46a2-9013-1de65ed89fca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine">
+      <UniqueIdentifier>{3acf5442-1b13-45d2-b982-23a5d2b72ebb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{369a90e1-bcc4-4833-a27c-ba1c2ccea1bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\states">
+      <UniqueIdentifier>{dee47cab-0b57-4d2d-b812-4303c475527e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libs">
+      <UniqueIdentifier>{6b80bc7b-6e99-4ea3-9f69-d02fae0767fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libs\imgui">
+      <UniqueIdentifier>{6bc23a90-eb43-43d3-8eb1-03acf599af52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libs\nlohmann">
+      <UniqueIdentifier>{df32a83f-205b-406b-b822-70117ef93522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{797b6094-9d8d-4b16-96b3-159c77af02a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game\widgets">
+      <UniqueIdentifier>{11619b5a-a37c-46c8-baaf-9bbf00647320}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\imgui\imgui\imgui.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\imgui\imgui\imgui_demo.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\imgui\imgui\imgui_draw.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\imgui\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\imgui\imgui\imgui-SFML.cpp">
+      <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libs\imgui\imgui\imconfig.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imgui.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imgui_internal.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imguia.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imgui-SFML.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imgui-SFML_export.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imstb_rectpack.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imstb_textedit.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\imgui\imgui\imstb_truetype.h">
+      <Filter>Header Files\libs\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\audio.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\files.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\game.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\holder.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logging.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\manager.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\maths.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\nonRules.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\stack.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\state.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\widget.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\menu.h">
+      <Filter>Header Files\game\states</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\nlohmann\json.hpp">
+      <Filter>Header Files\libs\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\others.h">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\button.h">
+      <Filter>Header Files\game\widgets</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

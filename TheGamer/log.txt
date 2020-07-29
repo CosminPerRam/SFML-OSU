@@ -1,0 +1,20 @@
+[ 4:40:24 ][  OK   ]: Logger initialized
+[ 4:40:24 ][  INFO ]: wow
+[ 4:40:51 ][  OK   ]: Logger initialized
+[ 4:40:51 ][  INFO ]: wow
+[ 4:41:42 ][  INFO ]: --- NEW SESSION ---
+[ 4:41:42 ][  OK   ]: Logger initialized
+[ 4:41:42 ][  INFO ]: wow
+[ 4:44:4 ][  INFO ]: --- NEW SESSION ---
+[ 4:44:4 ][  OK   ]: Logger initialized
+[ 4:44:4 ][  INFO ]: wow
+[ 5:16:33 ][  INFO ]: --- NEW SESSION ---
+[ 5:16:33 ][  OK   ]: Logger initialized
+[ 5:18:18 ][  INFO ]: --- NEW SESSION ---
+[ 5:18:18 ][  OK   ]: Logger initialized
+[ 5:19:36 ][  INFO ]: --- NEW SESSION ---
+[ 5:19:36 ][  OK   ]: Logger initialized
+[ 5:22:8 ][  INFO ]: --- NEW SESSION ---
+[ 5:22:8 ][  OK   ]: Logger initialized
+[ 5:24:25 ][  INFO ]: --- NEW SESSION ---
+[ 5:24:25 ][  OK   ]: Logger initialized
