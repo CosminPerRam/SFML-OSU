@@ -9,7 +9,7 @@ namespace game::states
 	class menu : public state
 	{
 	public:
-		menu(Game& game) : state(game)
+		menu(engine::Game& game) : state(game)
 		{
 			auto b = std::make_unique<game::gui::button>("uscat");
 			b->setFunction([]() {

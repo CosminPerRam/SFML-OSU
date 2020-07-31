@@ -40,6 +40,9 @@
     <Filter Include="Header Files\game\widgets">
       <UniqueIdentifier>{11619b5a-a37c-46c8-baaf-9bbf00647320}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game\osu">
+      <UniqueIdentifier>{ad3b16a1-0fd6-4844-8122-c401977173f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -101,9 +104,6 @@
     <ClInclude Include="source\engine\holder.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
-    <ClInclude Include="source\engine\logging.h">
-      <Filter>Header Files\engine</Filter>
-    </ClInclude>
     <ClInclude Include="source\engine\manager.h">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
@@ -133,6 +133,15 @@
     </ClInclude>
     <ClInclude Include="source\game\button.h">
       <Filter>Header Files\game\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\map.h">
+      <Filter>Header Files\game\osu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\game\difficulty.h">
+      <Filter>Header Files\game\osu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\engine\logger.h">
+      <Filter>Header Files\engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

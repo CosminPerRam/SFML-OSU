@@ -14,7 +14,7 @@ namespace engine::gui
 			: m_scale(scale), m_position(position)
 		{
 			if(resource != "")
-				m_body.setTexture(resourceHolder::get().textures.get(resource));
+				m_body.setTexture(engine::resource::holder::get().textures.get(resource));
 
 			m_body.setPosition(position);
 			m_body.setScale(scale, scale);
@@ -23,10 +23,10 @@ namespace engine::gui
 		virtual void handleEvent(sf::Event e, const sf::RenderWindow& window) = 0;
 		virtual void render(sf::RenderTarget& renderer) = 0;
 
-	private:
+	protected:
 		sf::Sprite m_body;
 
-		const sf::Vector2f m_position;
+		sf::Vector2f m_position;
 
 		const float m_scale;
 	};

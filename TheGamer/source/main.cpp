@@ -9,7 +9,7 @@
 
 int main()
 {
-	Game m_game;
+	engine::Game m_game;
 	m_game.pushState<game::states::menu>(m_game);
 	m_game.run();
 

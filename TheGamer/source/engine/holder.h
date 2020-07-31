@@ -1,28 +1,46 @@
 
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 #include "nonRules.h"
 #include "manager.h"
+#include "files.h"
 
-class resourceHolder : public NonCopyable, public NonMovable
+namespace engine::resource
 {
-public:
-    static resourceHolder& get()
+    class holder : public NonCopyable, public NonMovable
     {
-        static resourceHolder holder;
+    public:
+        static holder& get()
+        {
+            static holder t_holder;
 
-        return holder;
-    }
+            return t_holder;
+        }
 
-    resourceManager<sf::Font> fonts;
-    resourceManager<sf::Texture> textures;
-    resourceManager<sf::SoundBuffer> soundBuffers;
+        engine::resource::manager<sf::Font> fonts;
+        engine::resource::manager<sf::Texture> textures;
+        engine::resource::manager<sf::SoundBuffer> soundBuffers;
 
-private:
-    resourceHolder()
-        : fonts("fonts", "ttf"), textures("textures", "png"), soundBuffers("sfx", "ogg")
+    private:
+        holder()
+            : fonts("fonts", "ttf"), textures("textures", "png"), soundBuffers("sfx", "ogg")
+        {
+
+        }
+    };
+
+    template<typename resource>
+    unsigned load(const std::string& filePath, resource& holder)
     {
+        if (!engine::utilities::files::exists(filePath))
+            return 0;
 
+        if (holder.loadFromFile(filePath))
+            return -1;
+
+        return 1;
     }
-};
+}

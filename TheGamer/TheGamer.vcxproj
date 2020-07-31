@@ -167,7 +167,7 @@
     <ClInclude Include="source\engine\files.h" />
     <ClInclude Include="source\engine\game.h" />
     <ClInclude Include="source\engine\holder.h" />
-    <ClInclude Include="source\engine\logging.h" />
+    <ClInclude Include="source\engine\logger.h" />
     <ClInclude Include="source\engine\manager.h" />
     <ClInclude Include="source\engine\maths.h" />
     <ClInclude Include="source\engine\nonRules.h" />
@@ -176,6 +176,8 @@
     <ClInclude Include="source\engine\state.h" />
     <ClInclude Include="source\engine\widget.h" />
     <ClInclude Include="source\game\button.h" />
+    <ClInclude Include="source\game\difficulty.h" />
+    <ClInclude Include="source\game\map.h" />
     <ClInclude Include="source\game\menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

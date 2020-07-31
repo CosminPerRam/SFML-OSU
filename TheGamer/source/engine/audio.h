@@ -7,7 +7,7 @@
 
 //add support for 3d sound
 
-namespace sound
+namespace engine
 {
 	class SoundEngine
 	{
@@ -18,10 +18,11 @@ namespace sound
 			m_pitch = pitch;
 		}
 
-		unsigned play(const std::string& resource, unsigned volume = 100, float pitch = 1)
+		unsigned play(const sf::SoundBuffer& buffer, unsigned volume = 100, float pitch = 1)
 		{
 			this->update();
-			sounds.emplace_back(resourceHolder::get().soundBuffers.get(resource));
+
+			sounds.emplace_back(buffer);
 			sounds[sounds.size() - 1].setVolume(volume);
 			sounds[sounds.size() - 1].setPitch(pitch);
 			sounds[sounds.size() - 1].play();
@@ -29,10 +30,17 @@ namespace sound
 			return sounds.size() - 1;
 		}
 
+		unsigned play(const std::string& resource, unsigned volume = 100, float pitch = 1)
+		{
+			return this->play(engine::resource::holder::get().soundBuffers.get(resource), volume, pitch);
+		}
+
 		unsigned play(const std::string& resource)
 		{
-			this->play(resource, this->m_volume);
+			return this->play(resource, this->m_volume);
 		}
+
+		
 
 		void setVolume(unsigned& volume)
 		{

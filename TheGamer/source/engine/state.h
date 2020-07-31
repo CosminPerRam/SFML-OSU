@@ -5,12 +5,15 @@
 
 #include "nonRules.h"
 
-class Game;
+namespace engine
+{
+	class Game;
+}
 
 class state : public NonCopyable
 {
 public:
-	state(Game& game) : m_game(&game)
+	state(engine::Game& game) : m_game(&game)
 	{
 
 	}
@@ -24,5 +27,5 @@ public:
 	virtual void render(sf::RenderTarget& renderer) = 0;
 
 protected:
-	Game* m_game;
+	engine::Game* m_game;
 };

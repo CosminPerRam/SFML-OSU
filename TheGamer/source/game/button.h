@@ -5,6 +5,8 @@
 
 #include "../engine/widget.h"
 
+#include "../engine/holder.h"
+
 namespace game::gui
 {
     class button : public engine::gui::widget
@@ -17,6 +19,12 @@ namespace game::gui
             m_button.setFillColor(sf::Color::Black);
             m_button.setSize(size);
             m_button.setPosition(position);
+
+            m_text.setFont(engine::resource::holder::get().fonts.get("arial"));
+            m_text.setFillColor(sf::Color::Red);
+            m_text.setCharacterSize(12);
+            m_text.setPosition(position);
+            this->setText(str);
 
             m_position = position;
         }
@@ -83,8 +91,6 @@ namespace game::gui
             m_text.move(m_button.getGlobalBounds().width / 2.0f,
                 m_button.getGlobalBounds().height / 2.5f);
         }
-
-        sf::Vector2f    m_position;
 
         sf::RectangleShape   m_button;
         sf::Text        m_text;

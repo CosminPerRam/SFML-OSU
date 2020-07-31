@@ -1,7 +1,7 @@
 
 #include "math.h"
 
-namespace engine::utilities::maths
+namespace engine::utilities::math
 {
     constexpr float PI = 3.14159265f;
     constexpr float PI_MIN = 3.14f;
