@@ -18,15 +18,13 @@ namespace game::gui
             m_button.setOutlineColor(sf::Color::Green);
             m_button.setFillColor(sf::Color::Black);
             m_button.setSize(size);
-            m_button.setPosition(position);
 
             m_text.setFont(engine::resource::holder::get().fonts.get("arial"));
             m_text.setFillColor(sf::Color::Red);
             m_text.setCharacterSize(12);
-            m_text.setPosition(position);
-            this->setText(str);
-
-            m_position = position;
+            m_text.setString(str);
+            
+            this->setPosition(position);
         }
 
         void setFunction(std::function<void(void)> func) {
@@ -64,7 +62,6 @@ namespace game::gui
             m_position = pos;
 
             m_button.setPosition(m_position);
-            m_text.setPosition(m_position);
 
             updateText();
         }
@@ -76,11 +73,8 @@ namespace game::gui
     private:
         void updateText()
         {
-            m_text.setOrigin(m_text.getGlobalBounds().width / 2,
-                m_text.getGlobalBounds().height / 2);
-
-            m_text.move(m_button.getGlobalBounds().width / 2.0f,
-                m_button.getGlobalBounds().height / 2.5f);
+            m_text.setPosition(m_position.x + m_button.getGlobalBounds().width / 2 - m_text.getGlobalBounds().width / 2,
+                m_position.y + m_button.getGlobalBounds().height / 2 - m_text.getGlobalBounds().height / 2);
         }
 
         sf::RectangleShape   m_button;

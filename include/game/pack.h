@@ -35,7 +35,7 @@ namespace game::osu
 			for (std::string& d : diffNames)
 			{
 				std::ifstream stream(d);
-				osuParser::OsuParser p(&stream);
+				osuParser::OsuParser p(&stream, directory);
 
 				if(p.Parse())
 					m_diffs.push_back(p);

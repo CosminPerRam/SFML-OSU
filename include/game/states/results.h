@@ -3,21 +3,26 @@
 
 #include "engine/game.h"
 #include "engine/stack.h"
+#include "engine/files.h"
 
 #include "game/globals.h"
 
 #include "game/gui/button.h"
-#include <SFML/Graphics.hpp>
+#include "game/gui/text.h"
+#include "game/pack.h"
+
+#include "game/states/paused.h"
+#include "game/states/playing.h"
+
+#include "game/osu/osu!parser.h"
 
 namespace game::states
 {
-	class paused : public state
+	class results : public state
 	{
 	public:
-		paused(engine::Game& game) : state(game)
+		results(engine::Game& game) : state(game)
 		{
-			globals::gamesession.pause();
-
 			auto b_retry = std::make_unique<game::gui::button>("retry");
 
 			b_retry->setFunction([&game]() {
@@ -36,25 +41,12 @@ namespace game::states
 				game.popNStates(2);
 			});
 
-			auto b_resume = std::make_unique<game::gui::button>("resume", sf::Vector2f(300, 400));
-
-			b_resume->setFunction([&game]() {
-				std::cout << "resume" << std::endl;
-
-				globals::gamesession.resume();
-
-				game.popState();
-			});
-
 			m_stack.add(std::move(b_retry));
 			m_stack.add(std::move(b_mainmenu));
-			m_stack.add(std::move(b_resume));
 		}
 
 		void handleEvent(sf::Event e)
 		{
-
-
 			m_stack.handleEvent(e, m_game->getWindow());
 		}
 

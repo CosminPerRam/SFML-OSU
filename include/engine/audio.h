@@ -114,6 +114,10 @@ namespace engine
 			m_music.play();
 		}
 
+		bool ended() {
+			return m_music.getStatus() == sf::Music::Status::Stopped;
+		}
+
 		void setVolume(unsigned& volume)
 		{
 			m_volume = volume;

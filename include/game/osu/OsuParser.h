@@ -25,7 +25,7 @@ namespace osuParser
 	{
 	public:
 		// Creates a parser from input data stream
-		OsuParser(std::ifstream* stream);
+		OsuParser(std::ifstream* stream, std::string folder);
 		OsuParser();
 		~OsuParser();
 
@@ -170,6 +170,8 @@ namespace osuParser
 		// Vector of all the hit objects in a beatmap
 		std::vector<HitObject> hitObjects;
 
+		std::string m_folder;
+
 	private:
 		// Methods that extract and parse data from beatmap file
 		void _GetBeatmapVersion();
@@ -199,9 +201,10 @@ namespace osuParser
 }
 
 // Prepares the parser
-osuParser::OsuParser::OsuParser(std::ifstream* stream)
+osuParser::OsuParser::OsuParser(std::ifstream* stream, std::string folder)
 {
 	_s = stream;
+	m_folder = folder;
 	formatVersion = 0;
 	audioFilename.clear();
 	audioLeadIn = 0;
@@ -266,6 +269,7 @@ osuParser::OsuParser::~OsuParser() {};
 osuParser::OsuParser::OsuParser(const OsuParser& q) {
 	this->formatVersion = q.formatVersion;
 	this->audioFilename = q.audioFilename;
+	this->m_folder = q.m_folder;
 	this->audioLeadIn = q.audioLeadIn;
 	this->previewTime = q.previewTime;
 	this->countdown = q.countdown;
@@ -572,6 +576,9 @@ T osuParser::OsuParser::_ParseSectionField(const _OsSection& section, const stri
 		if (size_t len = f.find(':'); len != string::npos)
 		{
 			f.erase(0, len + 1);
+
+			while (f[0] == ' ') //remove whitespaces at the beginning
+				f.erase(0, 1);
 
 			// OH BOY, LOOK, THIS RANDOM constexpr OVER HERE MAKES IT WORK
 			if constexpr (is_same_v<T, string>)

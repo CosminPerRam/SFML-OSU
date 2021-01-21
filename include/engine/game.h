@@ -128,9 +128,6 @@ namespace engine
                 case sf::Event::Closed:
                     m_window.close();
                     break;
-                case sf::Event::MouseButtonPressed:
-                    std::cout << sf::Mouse::getPosition(m_window).x << " " << sf::Mouse::getPosition(m_window).y << std::endl;
-                    break;
                 default:
                     break;
                 }

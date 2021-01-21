@@ -17,9 +17,9 @@ namespace engine::gui
 	public:
 		~stack() = default;
 
-		void add(std::unique_ptr<gui::widget> w)
+		void add(std::shared_ptr<gui::widget> w)
 		{
-			m_widgets.push_back(std::move(w));
+			m_widgets.push_back(w);
 		}
 
 		void handleEvent(sf::Event e, const sf::RenderWindow& window) //could made this virtual = 0
@@ -51,7 +51,7 @@ namespace engine::gui
 
 		const sf::RenderWindow* m_window;
 
-		std::vector<std::unique_ptr<gui::widget>> m_widgets;
+		std::vector<std::shared_ptr<gui::widget>> m_widgets;
 
 		std::function<void(void)> m_imgui = [](){};
 	};
