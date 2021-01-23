@@ -13,7 +13,7 @@ namespace game::gui
     public:
         text(const std::string& str, sf::Vector2f position = sf::Vector2f(256, 64), sf::Vector2f size = sf::Vector2f(256, 64))
         {
-            m_text.setFont(engine::resource::holder::get().fonts.get("arial"));
+            m_text.setFont(engine::resource::holder::get().fonts.get("default"));
             m_text.setFillColor(sf::Color::Red);
             m_text.setCharacterSize(12);
             m_text.setPosition(position);

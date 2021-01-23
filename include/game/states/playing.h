@@ -9,7 +9,7 @@
 
 #include "game/gui/button.h"
 #include "game/gui/text.h"
-#include "game/pack.h"
+#include "game/osu/pack.h"
 
 #include "game/states/paused.h"
 #include "game/states/results.h"

@@ -22,7 +22,7 @@ namespace game::osu
 	class pack
 	{
 	public:	
-		pack(const std::string& directory, bool& valid)
+		pack(const std::string& directory)
 		{
 			m_directory = directory;
 			m_name = directory.substr(directory.find(' '));
@@ -34,8 +34,7 @@ namespace game::osu
 
 			for (std::string& d : diffNames)
 			{
-				std::ifstream stream(d);
-				osuParser::OsuParser p(&stream, directory);
+				osuParser::OsuParser p(d, directory);
 
 				if(p.Parse())
 					m_diffs.push_back(p);
@@ -46,8 +45,23 @@ namespace game::osu
 			logger::log("Pack processed!", logger::LEVEL::OK);
 		}
 
-		osuParser::OsuParser get() {
-			return m_diffs[0];
+		osuParser::OsuParser get(unsigned index, bool preview = false) {
+			if (index > m_diffs.size() - 1)
+				throw "exceeded difficulty pack index";
+
+			std::cout << "res/maps/" + m_directory + m_diffs[index].m_fileName << std::endl;
+			if(preview)
+				return osuParser::OsuParser("res/maps/" + m_directory + m_diffs[index].m_fileName, m_directory);
+
+			return m_diffs[index];
+		}
+
+		unsigned size() {
+			return this->m_diffs.size();
+		}
+
+		std::string getFolderName() {
+			return this->m_directory;
 		}
 
 	private:

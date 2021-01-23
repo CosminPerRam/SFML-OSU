@@ -20,7 +20,7 @@ namespace game::states
 
 			auto b_retry = std::make_unique<game::gui::button>("retry");
 
-			b_retry->setFunction([&game]() {
+			b_retry->setActivateFunction([&game]() {
 				std::cout << "retry" << std::endl;
 
 				globals::gamesession.restart();
@@ -30,7 +30,7 @@ namespace game::states
 
 			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400, 200));
 
-			b_mainmenu->setFunction([&game]() {
+			b_mainmenu->setActivateFunction([&game]() {
 				std::cout << "main menu" << std::endl;
 
 				game.popNStates(2);
@@ -38,7 +38,7 @@ namespace game::states
 
 			auto b_resume = std::make_unique<game::gui::button>("resume", sf::Vector2f(300, 400));
 
-			b_resume->setFunction([&game]() {
+			b_resume->setActivateFunction([&game]() {
 				std::cout << "resume" << std::endl;
 
 				globals::gamesession.resume();

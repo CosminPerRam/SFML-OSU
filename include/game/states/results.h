@@ -9,7 +9,7 @@
 
 #include "game/gui/button.h"
 #include "game/gui/text.h"
-#include "game/pack.h"
+#include "game/osu/pack.h"
 
 #include "game/states/paused.h"
 #include "game/states/playing.h"
@@ -25,7 +25,7 @@ namespace game::states
 		{
 			auto b_retry = std::make_unique<game::gui::button>("retry");
 
-			b_retry->setFunction([&game]() {
+			b_retry->setActivateFunction([&game]() {
 				std::cout << "retry" << std::endl;
 
 				globals::gamesession.restart();
@@ -35,7 +35,7 @@ namespace game::states
 
 			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400, 200));
 
-			b_mainmenu->setFunction([&game]() {
+			b_mainmenu->setActivateFunction([&game]() {
 				std::cout << "main menu" << std::endl;
 
 				game.popNStates(2);

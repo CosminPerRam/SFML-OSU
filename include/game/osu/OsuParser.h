@@ -25,11 +25,13 @@ namespace osuParser
 	{
 	public:
 		// Creates a parser from input data stream
-		OsuParser(std::ifstream* stream, std::string folder);
+		OsuParser(std::string fileName, std::string folder, bool preview = false);
 		OsuParser();
 		~OsuParser();
 
 		OsuParser(const OsuParser& q);
+
+		OsuParser& operator=(const OsuParser& q);
 
 		// Goes through istream and reads all data
 		bool Parse();
@@ -172,6 +174,10 @@ namespace osuParser
 
 		std::string m_folder;
 
+		std::string m_fileName;
+
+		bool isPreview;
+
 	private:
 		// Methods that extract and parse data from beatmap file
 		void _GetBeatmapVersion();
@@ -196,15 +202,18 @@ namespace osuParser
 		_OsBeatmap _b;
 
 		// Data stream
-		std::ifstream* _s;
+		std::ifstream _s;
 	};
 }
 
 // Prepares the parser
-osuParser::OsuParser::OsuParser(std::ifstream* stream, std::string folder)
+osuParser::OsuParser::OsuParser(std::string fileName, std::string folder, bool preview)
 {
-	_s = stream;
 	m_folder = folder;
+	m_fileName = fileName;
+	isPreview = preview;
+
+	_s = std::ifstream(fileName);
 	formatVersion = 0;
 	audioFilename.clear();
 	audioLeadIn = 0;
@@ -265,11 +274,75 @@ osuParser::OsuParser::OsuParser() {};
 
 osuParser::OsuParser::~OsuParser() {};
 
-//Copy constructor
-osuParser::OsuParser::OsuParser(const OsuParser& q) {
+osuParser::OsuParser& osuParser::OsuParser::operator=(const osuParser::OsuParser& q)
+{
+	this->m_folder = q.m_folder;
+	this->m_fileName = q.m_fileName;
+	this->isPreview = q.isPreview;
+
 	this->formatVersion = q.formatVersion;
 	this->audioFilename = q.audioFilename;
+	this->audioLeadIn = q.audioLeadIn;
+	this->previewTime = q.previewTime;
+	this->countdown = q.countdown;
+	this->sampleSet = q.sampleSet;
+	this->stackLeniency = q.stackLeniency;
+	this->mode = q.mode;
+	this->letterboxInBreaks = q.letterboxInBreaks;
+	this->widescreenStoryboard = q.widescreenStoryboard;
+	this->bookmarks = q.bookmarks;
+	this->distanceSpacing = q.distanceSpacing;
+	this->beatDivisor = q.beatDivisor;
+	this->gridSize = q.gridSize;
+	this->gridLevel = q.gridLevel;
+	this->timelineZoom = q.timelineZoom;
+	this->title = q.title;
+	this->titleUnicode = q.titleUnicode;
+	this->artist = q.artist;
+	this->artistUnicode = q.artistUnicode;
+	this->creator = q.creator;
+	this->version = q.version;
+	this->source = q.source;
+	this->tags = q.tags;
+	this->beatmapID = q.beatmapID;
+	this->beatmapSetID = q.beatmapSetID;
+	this->hpDrainRate = q.hpDrainRate;
+	this->HP = q.HP;
+	this->circleSize = q.circleSize;
+	this->CS = q.CS;
+	this->circleRadiusPx = q.circleRadiusPx;
+	this->overallDifficulty = q.overallDifficulty;
+	this->OD = q.OD;
+	this->hitWindow300 = q.hitWindow300;
+	this->hitWindow100 = q.hitWindow100;
+	this->hitWindow50 = q.hitWindow50;
+	this->requiredRPS = q.requiredRPS;
+	this->approachRate = q.approachRate;
+	this->AR = q.AR;
+	this->preemptMs = q.preemptMs;
+	this->fadeInMs = q.fadeInMs;
+	this->sliderMultiplier = q.sliderMultiplier;
+	this->sliderTickRate = q.sliderTickRate;
+	this->events = q.events;
+	this->timingPoints = q.timingPoints;
+	this->msPerBeats = q.msPerBeats;
+	this->lowestBPM = q.lowestBPM;
+	this->highestBPM = q.highestBPM;
+	this->averageBPM = q.averageBPM;
+	this->colors = q.colors;
+	this->hitObjects = q.hitObjects;
+
+	return *this;
+}
+
+//Copy constructor
+osuParser::OsuParser::OsuParser(const OsuParser& q) {
 	this->m_folder = q.m_folder;
+	this->m_fileName = q.m_fileName;
+	this->isPreview = q.isPreview;
+
+	this->formatVersion = q.formatVersion;
+	this->audioFilename = q.audioFilename;
 	this->audioLeadIn = q.audioLeadIn;
 	this->previewTime = q.previewTime;
 	this->countdown = q.countdown;
@@ -324,13 +397,13 @@ osuParser::OsuParser::OsuParser(const OsuParser& q) {
 // Goes through istream and reads all data
 bool osuParser::OsuParser::Parse()
 {
-	_s->seekg(0);
+	_s.seekg(0);
 
 	_GetBeatmapVersion();
 
 	_ExtractStructure();
 
-	_s->seekg(0);
+	_s.seekg(0);
 
 	_OsSection defaultSection = _OsSection({});
 
@@ -348,18 +421,6 @@ bool osuParser::OsuParser::Parse()
 		mode = (GameMode)_ParseSectionField<int>(t, "Mode", 0);
 		letterboxInBreaks = _ParseSectionField<bool>(t, "LetterboxInBreaks", false);
 		widescreenStoryboard = _ParseSectionField<bool>(t, "WidescreenStoryboard", false);
-	}
-
-	// EDITOR
-	t = _GetSection("Editor");
-	if (t != defaultSection)
-	{
-		bookmarks = _ParseSectionFieldAsList<OsTime>(t, "Bookmarks", ",");
-		distanceSpacing = _ParseSectionField<double>(t, "DistanceSpacing", 1.22);
-		beatDivisor = _ParseSectionField<int>(t, "BeatDivisor", 4); //-V112
-		gridSize = _ParseSectionField<int>(t, "GridSize", 4); //-V112
-		gridLevel = -round(log2(gridSize)) + 6;
-		timelineZoom = _ParseSectionField<double>(t, "TimelineZoom", 1.0);
 	}
 
 	// METADATA
@@ -410,6 +471,21 @@ bool osuParser::OsuParser::Parse()
 		requiredRPS = (OD < 5.0 || IsEqualDouble(OD, 5.0))
 			? (3.0 - 2.0 / 5.0 * OD)
 			: (5.0 - 5.0 / 2.0 + OD / 2.0);
+	}
+
+	if (isPreview)
+		return true;
+
+	// EDITOR
+	t = _GetSection("Editor");
+	if (t != defaultSection)
+	{
+		bookmarks = _ParseSectionFieldAsList<OsTime>(t, "Bookmarks", ",");
+		distanceSpacing = _ParseSectionField<double>(t, "DistanceSpacing", 1.22);
+		beatDivisor = _ParseSectionField<int>(t, "BeatDivisor", 4); //-V112
+		gridSize = _ParseSectionField<int>(t, "GridSize", 4); //-V112
+		gridLevel = -round(log2(gridSize)) + 6;
+		timelineZoom = _ParseSectionField<double>(t, "TimelineZoom", 1.0);
 	}
 
 	// EVENTS
@@ -489,7 +565,7 @@ bool osuParser::OsuParser::Parse()
 void osuParser::OsuParser::_GetBeatmapVersion()
 {
 	string fileVersionString = "";
-	getline(*_s, fileVersionString);
+	getline(_s, fileVersionString);
 
 	if (size_t len = fileVersionString.find('v'); len != string::npos)
 	{
@@ -506,9 +582,9 @@ void osuParser::OsuParser::_ExtractStructure()
 {
 	string t;
 
-	while (!_s->eof() && !_s->fail())
+	while (!_s.eof() && !_s.fail())
 	{
-		getline(*_s, t);
+		getline(_s, t);
 		TrimString(t);
 
 		if (t.empty())
@@ -528,7 +604,7 @@ void osuParser::OsuParser::_ExtractStructure()
 
 		while (true)
 		{
-			getline(*_s, t);
+			getline(_s, t);
 			TrimString(t);
 
 			if (t.empty())

@@ -19,7 +19,7 @@ namespace game::gui
             m_button.setFillColor(sf::Color::Black);
             m_button.setSize(size);
 
-            m_text.setFont(engine::resource::holder::get().fonts.get("arial"));
+            m_text.setFont(engine::resource::holder::get().fonts.get("default"));
             m_text.setFillColor(sf::Color::Red);
             m_text.setCharacterSize(12);
             m_text.setString(str);
@@ -27,8 +27,12 @@ namespace game::gui
             this->setPosition(position);
         }
 
-        void setFunction(std::function<void(void)> func) {
-            m_function = func;
+        void setActivateFunction(std::function<void(void)> func) {
+            m_activateFunction = func;
+        }
+
+        void setHoverFunction(std::function<void(void)> func) {
+            m_hoverFunction = func;
         }
 
         void setText(const std::string& str) {
@@ -43,12 +47,12 @@ namespace game::gui
 
         void handleEvent(sf::Event e, const sf::RenderWindow& window)
         {
-            if (e.type == sf::Event::MouseButtonPressed) {
-                if (e.mouseButton.button == sf::Mouse::Left) {
-                    auto pos = sf::Mouse::getPosition(window);
-                    if (m_button.getGlobalBounds().contains((float)pos.x, (float)pos.y)) {
-                        m_function();
-                    }
+            auto pos = sf::Mouse::getPosition(window);
+            if (m_button.getGlobalBounds().contains((float)pos.x, (float)pos.y)) {
+                m_hoverFunction();
+                if (e.type == sf::Event::MouseButtonPressed) {
+                    if (e.mouseButton.button == sf::Mouse::Left)
+                        m_activateFunction();
                 }
             }
         }
@@ -79,6 +83,7 @@ namespace game::gui
 
         sf::RectangleShape   m_button;
         sf::Text        m_text;
-        std::function<void(void)> m_function = []() {};
+        std::function<void(void)> m_activateFunction = []() {};
+        std::function<void(void)> m_hoverFunction = []() {};
     };
 }

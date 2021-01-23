@@ -4,6 +4,8 @@
 #include "game/globals.h"
 #include "engine/audio.h"
 
+#include "game/osu/osu!parser.h"
+
 namespace game
 {
 	class session
@@ -11,14 +13,18 @@ namespace game
 	public:
 		void play(osuParser::OsuParser map)
 		{
-			music.play(map.m_folder + "/" + map.audioFilename);
+			renderobjects.clear();
+
+			hitobjects = map.hitObjects;
+
+			std::cout << map.version << std::endl;
+
+			this->m_map = map;
 
 			m_timeRemainder = sf::Time::Zero;
 			m_time.restart();
 
-			hitobjects = map.hitObjects;
-
-			this->m_map = map;
+			music.play(map.m_folder + "/" + map.audioFilename);
 		}
 
 		void restart()
@@ -57,8 +63,8 @@ namespace game
 				if (e.mouseButton.button == sf::Mouse::Left) {
 					std::cout << e.mouseButton.x << " " << e.mouseButton.y << std::endl;
 					for (auto obj = renderobjects.begin(); obj != renderobjects.end(); obj++) {
-						if (e.mouseButton.x > obj->x - 20 && e.mouseButton.x < obj->x + 20 &&
-							e.mouseButton.y > obj->y - 20 && e.mouseButton.y > obj->y + 20)
+						if (e.mouseButton.x > obj->x - 80 && e.mouseButton.x < obj->x + 80 &&
+							e.mouseButton.y > obj->y - 80 && e.mouseButton.y < obj->y + 80)
 						{
 							std::cout << "HIT" << std::endl;
 						}

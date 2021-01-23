@@ -11,6 +11,8 @@
 #include "state.h"
 #include "logger.h"
 
+#include "game/globals.h"
+
 namespace engine
 {
     class Game : public NonCopyable, public NonMovable
@@ -23,6 +25,8 @@ namespace engine
             ImGui::SFML::Init(m_window);
 
             logger::init(true);
+
+            globals::loadPreviews();
 
             //pushState(std::make_unique<state>(start));  //verify if this works
         }
