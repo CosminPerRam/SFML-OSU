@@ -31,15 +31,15 @@ namespace game::osu
 
 			if (diffNames.empty())
 				logger::log("No difficultys inside map folder!", logger::LEVEL::WARN);
-
+			
 			for (std::string& d : diffNames)
 			{
-				osuParser::OsuParser p(d, directory);
+				osuParser::OsuParser p(d, directory, true);
 
-				if(p.Parse())
+				if (p.Parse()) //crashes here if the map is wrongly formatted
 					m_diffs.push_back(p);
 				else
-					throw "the fuck?";
+					std::cout << "failed parsing " << d << " from " << directory << " !" << std::endl;
 			}
 
 			logger::log("Pack processed!", logger::LEVEL::OK);
