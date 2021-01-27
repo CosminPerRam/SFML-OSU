@@ -18,7 +18,7 @@ namespace game::states
 		menu(engine::Game& game) : state(game)
 		{
 			m_pack = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].getFolderName());
-			m_diff = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].get(globals::previews_diff_at).version, sf::Vector2f(200, 200));
+			m_diff = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version, sf::Vector2f(200, 200));
 
 			m_diff->setActivateFunction([&]() {
 				game.pushState(std::make_unique<game::states::playing>(game, globals::previews[globals::previews_at].get(globals::previews_diff_at)));
@@ -49,7 +49,7 @@ namespace game::states
 						globals::previews_diff_at = 0;
 
 						m_pack->setText(globals::previews[globals::previews_at].getFolderName());
-						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at).version);
+						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version);
 					}
 					break;
 				case sf::Keyboard::S:
@@ -59,21 +59,21 @@ namespace game::states
 						globals::previews_diff_at = 0;
 
 						m_pack->setText(globals::previews[globals::previews_at].getFolderName());
-						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at).version);
+						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version);
 					}
 					break;
 				case sf::Keyboard::E:
 					if (globals::previews_diff_at + 1 < globals::previews[globals::previews_at].size())
 					{
 						globals::previews_diff_at++;
-						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at).version);
+						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version);
 					}
 					break;
 				case sf::Keyboard::D:
 					if (globals::previews_diff_at - 1 > -1)
 					{
 						globals::previews_diff_at--;
-						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at).version);
+						m_diff->setText(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version);
 					}
 					break;
 				default:

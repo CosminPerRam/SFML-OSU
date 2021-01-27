@@ -22,6 +22,9 @@ namespace globals {
 		previews.reserve(maps.size());
 
 		for (std::string& map : maps)
-			previews.emplace_back(map);
+		{
+			std::cout << map << std::endl;
+			previews.push_back(map);
+		}
 	}
 }

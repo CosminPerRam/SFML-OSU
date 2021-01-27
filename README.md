@@ -1,6 +1,7 @@
 
 # OSU-SFML-CPP
-A very barebones copy of the [Osu!](osu.ppy.sh) game made in C++ 17 using SFML, this project is not intended to be a remake of the entire game in C++, it's more like a challenge project. I'm not a good programmer whatsoever so I'll implement what I can and how I can, feel free to open a ticket regarding _any_ topic.
+A very barebones copy of the [Osu!](osu.ppy.sh) game made in C++ 17 using SFML and based on the @Hopson97's [game framework](https://github.com/Hopson97/SFML-Game-Framework). 
+This project is not intended to be a remake of the entire game in C++, it's more like a challenge project. I'm not a good programmer whatsoever so I'll implement what I can and how I can, feel free to open a ticket regarding _any_ topic.
 
 ## Status
  - The game supports reading Osu! beatmaps and provides _extremly_ basic gameplay mechanics for them.

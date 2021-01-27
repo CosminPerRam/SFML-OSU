@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <chrono>
 
 #include "imgui/imgui.h"
 #include "imgui/imgui-SFML.h"
@@ -11,6 +12,7 @@
 #include "state.h"
 #include "logger.h"
 
+#include "game/config.h"
 #include "game/globals.h"
 
 namespace engine
@@ -18,7 +20,7 @@ namespace engine
     class Game : public NonCopyable, public NonMovable
     {
     public:
-        Game() : m_window({ 1280, 720 }, "BaseRunner")
+        Game() : m_window({ config::width, config::height }, "OSU-SFML-CPP", (config::fullscreen) ? sf::Style::Fullscreen : sf::Style::Titlebar)
         {
             m_window.setFramerateLimit(60);
 
@@ -27,8 +29,6 @@ namespace engine
             logger::init(true);
 
             globals::loadPreviews();
-
-            //pushState(std::make_unique<state>(start));  //verify if this works
         }
 
         void run()

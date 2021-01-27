@@ -34,6 +34,7 @@ namespace game::osu
 			
 			for (std::string& d : diffNames)
 			{
+				std::cout << d << std::endl;
 				osuParser::OsuParser p(d, directory, true);
 
 				if (p.Parse()) //crashes here if the map is wrongly formatted
@@ -49,9 +50,13 @@ namespace game::osu
 			if (index > m_diffs.size() - 1)
 				throw "exceeded difficulty pack index";
 
-			std::cout << "res/maps/" + m_directory + m_diffs[index].m_fileName << std::endl;
-			if(preview)
-				return osuParser::OsuParser("res/maps/" + m_directory + m_diffs[index].m_fileName, m_directory);
+			if (!preview)
+			{
+				osuParser::OsuParser map(m_diffs[index].m_fileName, m_directory); //fix to directory + fileName
+				map.Parse();
+
+				return map;
+			}
 
 			return m_diffs[index];
 		}
