@@ -2,6 +2,7 @@
 #pragma once
 
 #include "engine/audio.h"
+
 #include "game/session.h"
 
 #include "game/osu/pack.h"

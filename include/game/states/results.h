@@ -33,7 +33,7 @@ namespace game::states
 				game.popState();
 			});
 
-			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400, 200));
+			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400.0, 200.0));
 
 			b_mainmenu->setActivateFunction([&game]() {
 				std::cout << "main menu" << std::endl;
@@ -41,6 +41,12 @@ namespace game::states
 				game.popNStates(2);
 			});
 
+			std::string results = "Results: \nScore: " + std::to_string(globals::gamesession.getScore())
+				+ "\nAccuracy: " + std::to_string(globals::gamesession.getAccuracy() * 100) + '%'
+				+ "\nMax combo: " + std::to_string(globals::gamesession.getMaxCombo());
+			auto b_results = std::make_unique<game::gui::text>(results, sf::Vector2f(100, 20));
+
+			m_stack.add(std::move(b_results));
 			m_stack.add(std::move(b_retry));
 			m_stack.add(std::move(b_mainmenu));
 		}

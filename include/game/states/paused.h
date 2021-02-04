@@ -7,7 +7,7 @@
 #include "game/globals.h"
 
 #include "game/gui/button.h"
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace game::states
 {
@@ -28,7 +28,7 @@ namespace game::states
 				game.popState();
 			});
 
-			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400, 200));
+			auto b_mainmenu = std::make_unique<game::gui::button>("main menu", sf::Vector2f(400.0, 200.0));
 
 			b_mainmenu->setActivateFunction([&game]() {
 				std::cout << "main menu" << std::endl;
@@ -36,7 +36,7 @@ namespace game::states
 				game.popNStates(2);
 			});
 
-			auto b_resume = std::make_unique<game::gui::button>("resume", sf::Vector2f(300, 400));
+			auto b_resume = std::make_unique<game::gui::button>("resume", sf::Vector2f(300.0, 400.0));
 
 			b_resume->setActivateFunction([&game]() {
 				std::cout << "resume" << std::endl;

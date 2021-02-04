@@ -3,10 +3,12 @@
 
 #include <algorithm>
 
-#include "game/globals.h"
 #include "engine/audio.h"
 
 #include "game/osu/osu!parser.h"
+#include "game/osu/osuMaths.h"
+
+#include "game/osu/OsuRender.h"
 
 namespace game
 {
@@ -15,38 +17,10 @@ namespace game
 	class session
 	{
 	public:
-		void play(osuParser::OsuParser map, std::vector<unsigned> mods = {})
-		{
-			renderobjects.clear();
-
-			hitobjects = map.hitObjects;
-
-			this->m_map = map;
-			this->m_mods = mods;
-
-			this->calculate();
-
-			m_timeRemainder = sf::Time::Zero;
-			m_time.restart();
-
-			music.play(map.m_folder + "/" + map.audioFilename);
-		}
-
-		void restart() {
-			play(this->m_map, this->m_mods);
-		}
-
-		void pause()
-		{
-			music.pause();
-			m_timeRemainder = m_timeRemainder + m_time.getElapsedTime();
-		}
-
-		void resume()
-		{
-			m_time.restart();
-			music.resume();
-		}
+		void play(osuParser::OsuParser map, std::vector<unsigned> mods = {});
+		void restart();
+		void pause();
+		void resume();
 
 		bool ended() {
 			return music.ended();
@@ -56,103 +30,52 @@ namespace game
 			return this->m_map;
 		}
 
-		void handleInput()
-		{
+		void handleInput();
+		void handleEvent(sf::Event e);
 
-		}
+		void update(sf::Time deltaTime);
+		void fixedUpdate(sf::Time deltaTime);
 
-		void handleEvent(sf::Event e) 
-		{
-			if (e.type == sf::Event::MouseButtonPressed) {
-				if (e.mouseButton.button == sf::Mouse::Left) {
-					std::cout << e.mouseButton.x << " " << e.mouseButton.y << std::endl;
-					for (auto obj = renderobjects.begin(); obj != renderobjects.end(); obj++) {
-						if (e.mouseButton.x > obj->x - 80 && e.mouseButton.x < obj->x + 80 &&
-							e.mouseButton.y > obj->y - 80 && e.mouseButton.y < obj->y + 80)
-						{
-							std::cout << "HIT" << std::endl;
-						}
-					}
-				}
-			}
-		}
-
-		void update(sf::Time deltaTime) 
-		{
-			if (hitobjects.size() > 0) {
-				if (getMapTime() + c_AR > hitobjects[0].time) {
-					renderobjects.push_back(hitobjects[0]);
-					hitobjects.erase(hitobjects.begin());
-				}
-			}
-		}
-
-		void fixedUpdate(sf::Time deltaTime) 
-		{
-		
-		}
-
-		void render(sf::RenderTarget& renderer)
-		{
-			for (auto obj = renderobjects.begin(); obj != renderobjects.end(); ) {
-				sf::CircleShape circle(20);
-				circle.setOutlineColor(sf::Color::Red);
-				circle.setOutlineThickness(1);
-				circle.setPosition(obj->x, obj->y);
-				renderer.draw(circle);
-
-				if (obj->time + c_AR < getMapTime())
-					obj = renderobjects.erase(obj);
-				else
-					obj++;
-			}
-		}
+		void render(sf::RenderTarget& renderer);
 
 		unsigned long long getMapTime() {
 			return (m_timeRemainder + m_time.getElapsedTime()).asMilliseconds();
 		}
 
-	private:
-		void calculate()
-		{
-			for (unsigned mod : m_mods) {
-				switch (mod) {
-				case game::EZ:
-
-					break;
-				case game::HR:
-
-					break;
-				case game::DT:
-
-					break;
-				case game::HT:
-
-					break;
-				case game::HD:
-
-					break;
-				default:
-					break;
-				}
-			}
-
-			if (m_map.AR < 5)
-			{
-				c_AR = 1200 + 600 * (5 - m_map.AR) / 5;
-				c_fadeIn = 800 + 400 * (5 - m_map.AR) / 5;
-			}
-			else if (m_map.AR > 5)
-			{
-				c_AR = 1200 - 750 * (m_map.AR - 5) / 5;
-				c_fadeIn = 800 - 500 * (m_map.AR - 5) / 5;
-			}
-			else // == 5
-			{
-				c_AR = 1200;
-				c_fadeIn = 800;
-			}
+		unsigned getCombo() {
+			return s_combo;
 		}
+
+		unsigned getScore() {
+			return s_score;
+		}
+
+		float getAccuracy() {
+			return s_accuracy;
+		}
+
+		unsigned getMaxCombo() {
+			return s_maxCombo;
+		}
+
+		unsigned getPerfects() {
+			return s_nPerfects;
+		}
+
+		unsigned getHundreds() {
+			return s_nHundreds;
+		}
+
+		unsigned getFifties() {
+			return s_nFifties;
+		}
+
+		unsigned getMisses() {
+			return s_nMisses;
+		}
+
+	private:
+		void calculate();
 
 		osuParser::OsuParser m_map;
 		std::vector<unsigned> m_mods;
@@ -160,11 +83,42 @@ namespace game
 		//Osu related calculations
 		unsigned c_AR;
 		unsigned c_fadeIn;
+
+		float c_perfectsWindow;
+		float c_hundredsWindow;
+		float c_fiftiesWindow;
+
+		unsigned c_CS;
+		//------------------------
+		//Stats
+		unsigned s_combo;
+		unsigned s_score;
+		float s_accuracy;
+
+		unsigned s_maxCombo;
+		
+		unsigned s_nPerfects;
+		unsigned s_nHundreds;
+		unsigned s_nFifties;
+		unsigned s_nMisses;
+
+		void s_resetCombo() {
+			if (s_combo > s_maxCombo)
+				s_maxCombo = s_combo;
+
+			s_combo = 0;
+		}
+
+		void s_updateAccuracy() {
+			s_accuracy = float(50 * s_nFifties + 100 * s_nHundreds + 300 * s_nPerfects)
+				/ (300 * (s_nMisses + s_nFifties + s_nHundreds + s_nPerfects));
+		}
 		//------------------------
 
-		std::vector<osuParser::HitObject> hitobjects;
+		std::vector<osuParser::HitObject> hitObjects;
 
-		std::vector<osuParser::HitObject> renderobjects;
+		std::vector<osuParser::HitObject> renderHitObjects;
+		std::vector<osu::render::TextObject> dynamicObjects;
 
 		sf::Clock m_time;
 		sf::Time m_timeRemainder;

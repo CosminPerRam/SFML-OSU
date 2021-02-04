@@ -4,6 +4,7 @@
 #include "engine/game.h"
 #include "engine/stack.h"
 #include "engine/files.h"
+#include "engine/maths.h"
 
 #include "game/globals.h"
 
@@ -25,8 +26,14 @@ namespace game::states
 		{
 			globals::gamesession.play(map);
 
-			auto t_status = std::make_unique<game::gui::text>("PLAYING");
-			m_stack.add(std::move(t_status));
+			t_accuracy = std::make_shared<game::gui::text>("Accuracy: 0.0%", sf::Vector2f(100.0, 10));
+			m_stack.add(t_accuracy);
+
+			t_score = std::make_shared<game::gui::text>("Score: 0", sf::Vector2f(250.0, 10));
+			m_stack.add(t_score);
+
+			t_combo = std::make_shared<game::gui::text>("Combo: 0x", sf::Vector2f(350.0, 10));
+			m_stack.add(t_combo);
 		}
 
 		void handleInput() {
@@ -50,6 +57,12 @@ namespace game::states
 
 			if(globals::gamesession.ended())
 				m_game->pushState<game::states::results>(*m_game);
+			else
+			{
+				t_accuracy->setText("Accuracy: " + std::to_string(globals::gamesession.getAccuracy() * 100) + '%');
+				t_score->setText("Score: " + std::to_string(globals::gamesession.getScore()));
+				t_combo->setText("Combo: " + std::to_string(globals::gamesession.getCombo()) + 'x');
+			}
 		}
 
 		void fixedUpdate(sf::Time deltaTime)
@@ -64,6 +77,8 @@ namespace game::states
 		}
 
 	private:
+		std::shared_ptr<game::gui::text> t_accuracy, t_score, t_combo;
+
 		engine::gui::stack m_stack;
 	};
 }

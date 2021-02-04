@@ -12,7 +12,7 @@ namespace engine::utilities::files
 {
     enum type { File, Directory };
 
-    std::string getFileContent(const std::string& path)
+    inline std::string getFileContent(const std::string& path)
     {
         std::ifstream fin(path);
 
@@ -29,7 +29,7 @@ namespace engine::utilities::files
         return stream.str();
     }
 
-    void setFileContent(const std::string& filePath, const std::string& content)
+    inline void setFileContent(const std::string& filePath, const std::string& content)
     {
         std::ofstream fout(filePath);
 
@@ -37,12 +37,12 @@ namespace engine::utilities::files
         fout.close();
     }
 
-    bool exists(const std::string& filePath)
+    inline bool exists(const std::string& filePath)
     {
         return std::filesystem::exists(filePath);
     }
 
-    bool is_folder(const std::string& folderPath)
+    inline bool is_folder(const std::string& folderPath)
     {
         if (!exists(folderPath))
             return false;
@@ -50,7 +50,7 @@ namespace engine::utilities::files
         return std::filesystem::is_directory(folderPath);
     }
 
-    std::vector<std::string> folderContents(const std::string& folderPath, unsigned type = 0, const std::string& extension = ".")
+    inline std::vector<std::string> folderContents(const std::string& folderPath, unsigned type = 0, const std::string& extension = ".")
     {
         std::vector<std::string> names;
 

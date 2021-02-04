@@ -1,7 +1,9 @@
 
-#include "math.h"
+#pragma once
 
-namespace engine::utilities::math
+#include <math.h>
+
+namespace engine::math
 {
     constexpr float PI = 3.14159265f;
     constexpr float PI_MIN = 3.14f;
@@ -22,5 +24,10 @@ namespace engine::utilities::math
     T power(T base, T power)
     {
         return pow(base, power);
+    }
+
+    template <typename T>
+    float sqroot(T number) {
+        return sqrt(number);
     }
 }

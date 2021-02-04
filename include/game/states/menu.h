@@ -8,7 +8,7 @@
 
 #include "game/osu/pack.h"
 #include "game/states/playing.h"
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace game::states
 {
@@ -18,13 +18,13 @@ namespace game::states
 		menu(engine::Game& game) : state(game)
 		{
 			m_pack = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].getFolderName());
-			m_diff = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version, sf::Vector2f(200, 200));
+			m_diff = std::make_shared<game::gui::button>(globals::previews[globals::previews_at].get(globals::previews_diff_at, true).version, sf::Vector2f(200.0, 200.0));
 
 			m_diff->setActivateFunction([&]() {
 				game.pushState(std::make_unique<game::states::playing>(game, globals::previews[globals::previews_at].get(globals::previews_diff_at)));
 			});
 
-			auto exit = std::make_unique<game::gui::button>("quit", sf::Vector2f(400, 400));
+			auto exit = std::make_unique<game::gui::button>("quit", sf::Vector2f(400.0, 400.0));
 			exit->setActivateFunction([&]() {
 				game.exitGame();
 			});
@@ -100,8 +100,7 @@ namespace game::states
 	private:
 		int m_at = 0;
 
-		std::shared_ptr<game::gui::button> m_pack;
-		std::shared_ptr<game::gui::button> m_diff;
+		std::shared_ptr<game::gui::button> m_pack, m_diff;
 
 		engine::gui::stack m_stack;
 	};

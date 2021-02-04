@@ -5,6 +5,8 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio.hpp>
 
+#include "libraries/sfml/mp3.h"
+
 #include "holder.h"
 
 //add support for 3d sound?
@@ -143,7 +145,7 @@ namespace engine
 		}
 
 	private:
-		sf::Music m_music;
+		sfe::Mp3 m_music;
 
 		unsigned m_volume;
 		float m_pitch;

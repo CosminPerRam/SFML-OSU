@@ -20,7 +20,7 @@ namespace engine
     class Game : public NonCopyable, public NonMovable
     {
     public:
-        Game() : m_window({ config::width, config::height }, "OSU-SFML-CPP", (config::fullscreen) ? sf::Style::Fullscreen : sf::Style::Titlebar)
+        Game() : m_window({ config::screen::width, config::screen::height }, "OSU-SFML-CPP", (config::screen::fullscreen) ? sf::Style::Fullscreen : sf::Style::Titlebar)
         {
             m_window.setFramerateLimit(60);
 
