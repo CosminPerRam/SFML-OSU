@@ -94,7 +94,7 @@ namespace engine
 	class MusicEngine 
 	{
 	public:
-		MusicEngine(const unsigned& volume = 100, const float& pitch = 1)
+		MusicEngine(const unsigned& volume = 50, const float& pitch = 1)
 		{
 			m_volume = volume;
 			m_pitch = pitch;

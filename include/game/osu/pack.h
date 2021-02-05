@@ -38,7 +38,10 @@ namespace game::osu
 				osuParser::OsuParser p(d, directory, true);
 
 				if (p.Parse()) //crashes here if the map is wrongly formatted
-					m_diffs.push_back(p);
+				{
+					if(p.mode == 0) //only osu! maps
+						m_diffs.push_back(p);
+				}
 				else
 					std::cout << "failed parsing " << d << " from " << directory << " !" << std::endl;
 			}

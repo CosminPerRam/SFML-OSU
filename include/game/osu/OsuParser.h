@@ -24,11 +24,11 @@ namespace osuParser
 	class OsuParser
 	{
 	public:
-		// Creates a parser from input data stream
-		OsuParser(std::string fileName, std::string folder, bool preview = false);
 		OsuParser();
 		~OsuParser();
 
+		// Creates a parser from input data stream
+		OsuParser(std::string fileName, std::string folder, bool preview = false);
 		OsuParser(const OsuParser& q);
 
 		OsuParser& operator=(const OsuParser& q);
