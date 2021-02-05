@@ -3,7 +3,7 @@
 
 #include "game/session.h"
 
-void game::session::play(osuParser::OsuParser map, std::vector<unsigned> mods)
+void game::session::play(osu::parse::OsuParser map, std::vector<unsigned> mods)
 {
 	renderHitObjects.clear();
 	dynamicObjects.clear();
@@ -58,10 +58,10 @@ void game::session::handleEvent(sf::Event e)
 	if (e.type == sf::Event::MouseButtonPressed) {
 		if (e.mouseButton.button == sf::Mouse::Left) {
 			for (auto obj = renderHitObjects.begin(); obj != renderHitObjects.end(); ) {
-				sf::Vector2f circleCoords = osu::math::screenPosition({ float(obj->x), float(obj->y) });
+				sf::Vector2f circleCoords = osu::math::screenPosition(obj->getCoords());
 				if (engine::math::sqroot((e.mouseButton.x - circleCoords.x) * (e.mouseButton.x - circleCoords.x) +
 					(e.mouseButton.y - circleCoords.y) * (e.mouseButton.y - circleCoords.y)) < c_CS * m_map.CS * 2) {
-					float hitRemainedTime = std::abs(obj->time - float(getMapTime()));
+					float hitRemainedTime = std::abs(obj->getTime() - float(getMapTime()));
 					float timeRemainedPrecentage = hitRemainedTime / c_AR;
 
 					s_combo++;
@@ -103,7 +103,7 @@ void game::session::update(sf::Time deltaTime)
 {
 	if (hitObjects.size() > 0) {
 		if (getMapTime() + c_AR > hitObjects[0].time) {
-			renderHitObjects.push_back(hitObjects[0]);
+			renderHitObjects.push_back(osu::render::HitObject(hitObjects[0], m_map.CS, c_CS, c_AR));
 			hitObjects.erase(hitObjects.begin());
 		}
 	}
@@ -117,30 +117,14 @@ void game::session::fixedUpdate(sf::Time deltaTime)
 void game::session::render(sf::RenderTarget& renderer)
 {
 	for (auto obj = renderHitObjects.begin(); obj != renderHitObjects.end(); ) {
-		sf::Vector2f position = osu::math::screenPosition({ float(obj->x), float(obj->y) });
-		float timeRemainedPrecentage = std::abs((float(obj->time) - getMapTime()) / c_AR);
+		obj->render(renderer, getMapTime());
 
-		sf::CircleShape circle(c_CS * m_map.CS);
-		circle.setOrigin(circle.getRadius(), circle.getRadius());
-		circle.setPosition(position);
-		circle.setFillColor(sf::Color(0, 255, 0, (255 - 255 * timeRemainedPrecentage)));
-		renderer.draw(circle);
-
-		unsigned outlineSize = c_CS * m_map.CS - c_CS * m_map.CS * (1 - timeRemainedPrecentage);
-		sf::CircleShape outed(c_CS * m_map.CS + outlineSize);
-		outed.setFillColor(sf::Color(0, 0, 0, 0));
-		outed.setOrigin(circle.getRadius(), circle.getRadius());
-		outed.setPosition(osu::math::screenPosition({ float(obj->x) - outlineSize, float(obj->y) - outlineSize }));
-		outed.setOutlineThickness(2);
-		outed.setOutlineColor(sf::Color(255, 0, 0, (255 - 255 * timeRemainedPrecentage)));
-		renderer.draw(outed);
-
-		if (obj->time < getMapTime())
+		if (obj->getTime() < getMapTime())
 		{
 			s_resetCombo();
 			s_nMisses++;
 			s_updateAccuracy();
-			dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, osu::math::screenPosition({ float(obj->x), float(obj->y) }), "X"));
+			dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, osu::math::screenPosition(obj->getCoords()), "X"));
 
 			obj = renderHitObjects.erase(obj);
 		}
@@ -149,13 +133,9 @@ void game::session::render(sf::RenderTarget& renderer)
 	}
 
 	for (auto obj = dynamicObjects.begin(); obj != dynamicObjects.end(); ) {
-		sf::Text text(obj->text, engine::resource::holder::get().fonts.get("default"), 8);
-		text.setPosition(obj->pos);
-		text.setFillColor(sf::Color::White);
+		obj->render(renderer);
 
-		renderer.draw(text);
-
-		if (obj->time < getMapTime())
+		if (obj->getTime() < getMapTime())
 			obj = dynamicObjects.erase(obj);
 		else
 			obj++;

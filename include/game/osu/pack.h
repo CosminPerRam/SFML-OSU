@@ -1,24 +1,22 @@
-#pragma once
 
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <iostream>
 
+#include <SFML/Graphics.hpp>
+
 #include "engine/files.h"
 #include "engine/logger.h"
 #include "engine/manager.h"
-#include "game/osu/osu!parser.h"
 #include "engine/files.h"
 
-namespace game::osu
+#include "game/osu/OsuParser.h"
+
+namespace osu
 {
-	/*
-	* Constructing a pack is a very costly operation
-	* TODO: Lookahead for info, don't load the entire map, load only at playtime
-	*/
 	class pack
 	{
 	public:	
@@ -35,7 +33,7 @@ namespace game::osu
 			for (std::string& d : diffNames)
 			{
 				std::cout << d << std::endl;
-				osuParser::OsuParser p(d, directory, true);
+				osu::parse::OsuParser p(d, directory, true);
 
 				if (p.Parse()) //crashes here if the map is wrongly formatted
 				{
@@ -49,13 +47,13 @@ namespace game::osu
 			logger::log("Pack processed!", logger::LEVEL::OK);
 		}
 
-		osuParser::OsuParser get(unsigned index, bool preview = false) {
+		osu::parse::OsuParser get(unsigned index, bool preview = false) {
 			if (index > m_diffs.size() - 1)
 				throw "exceeded difficulty pack index";
 
 			if (!preview)
 			{
-				osuParser::OsuParser map(m_diffs[index].m_fileName, m_directory); //fix to directory + fileName
+				osu::parse::OsuParser map(m_diffs[index].m_fileName, m_directory); //fix to directory + fileName
 				map.Parse();
 
 				return map;
@@ -76,6 +74,6 @@ namespace game::osu
 		std::string m_directory;
 		std::string m_name;
 
-		std::vector<osuParser::OsuParser> m_diffs;
+		std::vector<osu::parse::OsuParser> m_diffs;
 	};
 }

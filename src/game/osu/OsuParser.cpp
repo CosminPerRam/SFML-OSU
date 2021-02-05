@@ -5,7 +5,7 @@
 using namespace std;
 
 // Prepares the parser
-osuParser::OsuParser::OsuParser(std::string fileName, std::string folder, bool preview)
+osu::parse::OsuParser::OsuParser(std::string fileName, std::string folder, bool preview)
 {
 	m_folder = folder;
 	m_fileName = fileName;
@@ -68,11 +68,11 @@ osuParser::OsuParser::OsuParser(std::string fileName, std::string folder, bool p
 	_b = {};
 }
 
-osuParser::OsuParser::OsuParser() {};
+osu::parse::OsuParser::OsuParser() {};
 
-osuParser::OsuParser::~OsuParser() {};
+osu::parse::OsuParser::~OsuParser() {};
 
-osuParser::OsuParser& osuParser::OsuParser::operator=(const osuParser::OsuParser& q)
+osu::parse::OsuParser& osu::parse::OsuParser::operator=(const osu::parse::OsuParser& q)
 {
 	this->m_folder = q.m_folder;
 	this->m_fileName = q.m_fileName;
@@ -134,7 +134,7 @@ osuParser::OsuParser& osuParser::OsuParser::operator=(const osuParser::OsuParser
 }
 
 //Copy constructor
-osuParser::OsuParser::OsuParser(const OsuParser& q) {
+osu::parse::OsuParser::OsuParser(const OsuParser& q) {
 	this->m_folder = q.m_folder;
 	this->m_fileName = q.m_fileName;
 	this->isPreview = q.isPreview;
@@ -193,7 +193,7 @@ osuParser::OsuParser::OsuParser(const OsuParser& q) {
 }
 
 // Goes through istream and reads all data
-bool osuParser::OsuParser::Parse()
+bool osu::parse::OsuParser::Parse()
 {
 	_s.seekg(0);
 
@@ -360,7 +360,7 @@ bool osuParser::OsuParser::Parse()
 	return true;
 }
 
-void osuParser::OsuParser::_GetBeatmapVersion()
+void osu::parse::OsuParser::_GetBeatmapVersion()
 {
 	string fileVersionString = "";
 	getline(_s, fileVersionString);
@@ -376,7 +376,7 @@ void osuParser::OsuParser::_GetBeatmapVersion()
 	formatVersion = (uint8_t)-1;
 }
 
-void osuParser::OsuParser::_ExtractStructure()
+void osu::parse::OsuParser::_ExtractStructure()
 {
 	string t;
 
@@ -415,7 +415,7 @@ void osuParser::OsuParser::_ExtractStructure()
 	}
 }
 
-osuParser::_OsSection osuParser::OsuParser::_GetSection(const std::string& name)
+osu::parse::_OsSection osu::parse::OsuParser::_GetSection(const std::string& name)
 {
 	for (auto&& section : _b)
 	{
@@ -429,7 +429,7 @@ osuParser::_OsSection osuParser::OsuParser::_GetSection(const std::string& name)
 }
 
 template<typename T>
-T osuParser::OsuParser::_ParseSectionField(const _OsSection& section, const string& fieldName, const T& defaultTo)
+T osu::parse::OsuParser::_ParseSectionField(const _OsSection& section, const string& fieldName, const T& defaultTo)
 {
 	for (auto&& field : section.second)
 	{
@@ -460,7 +460,7 @@ T osuParser::OsuParser::_ParseSectionField(const _OsSection& section, const stri
 }
 
 template<typename T>
-vector<T> osuParser::OsuParser::_ParseSectionFieldAsList(const _OsSection& section, const string& fieldName, const string& delim)
+vector<T> osu::parse::OsuParser::_ParseSectionFieldAsList(const _OsSection& section, const string& fieldName, const string& delim)
 {
 	for (auto&& field : section.second)
 	{
@@ -498,7 +498,7 @@ vector<T> osuParser::OsuParser::_ParseSectionFieldAsList(const _OsSection& secti
 	return {};
 }
 
-osuParser::Event osuParser::OsuParser::_ParseFieldAsEvent(const string& field)
+osu::parse::Event osu::parse::OsuParser::_ParseFieldAsEvent(const string& field)
 {
 	string f = field;
 
@@ -517,7 +517,7 @@ osuParser::Event osuParser::OsuParser::_ParseFieldAsEvent(const string& field)
 	return { eUnknown };
 }
 
-osuParser::TimingPoint osuParser::OsuParser::_ParseFieldAsTimingPoint(const string& field)
+osu::parse::TimingPoint osu::parse::OsuParser::_ParseFieldAsTimingPoint(const string& field)
 {
 	string f = field;
 
@@ -548,7 +548,7 @@ osuParser::TimingPoint osuParser::OsuParser::_ParseFieldAsTimingPoint(const stri
 	return tp;
 }
 
-osuParser::RGBAColor osuParser::OsuParser::_ParseFieldAsRGBAColor(const string& field)
+osu::parse::RGBAColor osu::parse::OsuParser::_ParseFieldAsRGBAColor(const string& field)
 {
 	string f = field; //-V808
 
@@ -569,7 +569,7 @@ osuParser::RGBAColor osuParser::OsuParser::_ParseFieldAsRGBAColor(const string& 
 	return {};
 }
 
-osuParser::HitObject osuParser::OsuParser::_ParseFieldAsHitObject(const string& field)
+osu::parse::HitObject osu::parse::OsuParser::_ParseFieldAsHitObject(const string& field)
 {
 	string f = field;
 
@@ -684,7 +684,7 @@ osuParser::HitObject osuParser::OsuParser::_ParseFieldAsHitObject(const string& 
 	return o;
 }
 
-void osuParser::OsuParser::_ExtractExtras(const string& s, HitObject& o)
+void osu::parse::OsuParser::_ExtractExtras(const string& s, HitObject& o)
 {
 	vector<string> params;
 	SplitString(s, ":", params);

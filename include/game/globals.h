@@ -13,7 +13,7 @@ namespace globals {
 
 	static game::session gamesession;
 
-	static std::vector<game::osu::pack> previews;
+	static std::vector<osu::pack> previews;
 	static int previews_at = 0;
 	static int previews_diff_at = 0;
 

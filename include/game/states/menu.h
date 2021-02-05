@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "engine/game.h"
 #include "engine/stack.h"
 

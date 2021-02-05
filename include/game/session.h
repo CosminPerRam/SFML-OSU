@@ -5,7 +5,7 @@
 
 #include "engine/audio.h"
 
-#include "game/osu/osu!parser.h"
+#include "game/osu/OsuParser.h"
 #include "game/osu/osuMaths.h"
 
 #include "game/osu/OsuRender.h"
@@ -17,7 +17,7 @@ namespace game
 	class session
 	{
 	public:
-		void play(osuParser::OsuParser map, std::vector<unsigned> mods = {});
+		void play(osu::parse::OsuParser map, std::vector<unsigned> mods = {});
 		void restart();
 		void pause();
 		void resume();
@@ -26,7 +26,7 @@ namespace game
 			return music.ended();
 		}
 
-		osuParser::OsuParser getMap() {
+		osu::parse::OsuParser getMap() {
 			return this->m_map;
 		}
 
@@ -77,7 +77,7 @@ namespace game
 	private:
 		void calculate();
 
-		osuParser::OsuParser m_map;
+		osu::parse::OsuParser m_map;
 		std::vector<unsigned> m_mods;
 
 		//Osu related calculations
@@ -115,9 +115,9 @@ namespace game
 		}
 		//------------------------
 
-		std::vector<osuParser::HitObject> hitObjects;
+		std::vector<osu::parse::HitObject> hitObjects;
 
-		std::vector<osuParser::HitObject> renderHitObjects;
+		std::vector<osu::render::HitObject> renderHitObjects;
 		std::vector<osu::render::TextObject> dynamicObjects;
 
 		sf::Clock m_time;

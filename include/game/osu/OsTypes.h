@@ -6,8 +6,7 @@
 //                                                            //
 ////////////////////////////////////////////////////////////////
 
-#ifndef OSU_PARSER_TYPES_H
-#define OSU_PARSER_TYPES_H
+#pragma once
 
 #include <vector>
 #include <string>
@@ -16,7 +15,7 @@
 #define LIFE_BAR_POINT_LENGTH 2
 #define ACTION_LENGTH 4
 
-namespace osuParser
+namespace osu::parse
 {
 	// For readability and to follow format docs I'm typedefing all over the place
 	// NOTE: OsTime will always be represented in milliseconds
@@ -320,5 +319,3 @@ namespace osuParser
 		SliderData slider = {};
 	};
 }
-
-#endif

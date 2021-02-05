@@ -8,7 +8,7 @@ using namespace std;
 //   delimiter, string, in what places to split the string
 //   output, ref vector<string>, all parts of the splitted string
 // Eg: SplitString("1|2|3,4|5|6", ',', output) -> ["1|2|3","4|5|6"]
-void osuParser::SplitString(const string& str, const string& delimiter, vector<string>& output)
+void osu::parse::SplitString(const string& str, const string& delimiter, vector<string>& output)
 {
 	output.clear();
 
@@ -37,7 +37,7 @@ void osuParser::SplitString(const string& str, const string& delimiter, vector<s
 
 // Trims (removes whitespace) passed string
 //   str, ref string, string to trim
-void osuParser::TrimString(string& str) {
+void osu::parse::TrimString(string& str) {
 	str.erase(str.begin(), find_if(str.begin(), str.end(), [](int ch) {
 		return !isspace(static_cast<unsigned char>(ch));
 		}));
@@ -46,7 +46,7 @@ void osuParser::TrimString(string& str) {
 // Decompress LZMA-compressed buffer
 //   inBuf, vector<uint8_t>, input buffer with LZMA-compressed bytes
 //   outBuf, ref vector<uint8_t>, output buffer where decompressed data will be written
-void osuParser::DecompressLZMA(const vector<uint8_t>& inBuf, vector<uint8_t>& outBuf)
+void osu::parse::DecompressLZMA(const vector<uint8_t>& inBuf, vector<uint8_t>& outBuf)
 {
 	outBuf.clear();
 	// Reserves N bytes, shrinks to fit after decompression
@@ -61,13 +61,13 @@ void osuParser::DecompressLZMA(const vector<uint8_t>& inBuf, vector<uint8_t>& ou
 //   a, double, first value to check
 //   b, double, second value to check
 // Returns true if both values are equal, false otherwise
-bool osuParser::IsEqualDouble(const double& a, const double& b)
+bool osu::parse::IsEqualDouble(const double& a, const double& b)
 {
 	return fabs(a - b) < DBL_EPSILON;
 }
 
 // String names for each available mod
-const vector<string> osuParser::_modNames = {
+const vector<string> osu::parse::_modNames = {
 	"NoFail", "Easy", "NoVideo", "Hidden", "HardRock", "SuddenDeath", "DoubleTime",
 	"Relax", "HalfTime", "Nightcore", "Flashlight", "Autoplay", "SpunOut", "Relax2",
 	"Perfect", "Key4", "Key5", "Key6", "Key7", "Key8", "FadeIn", "Random", "LastMod",
@@ -75,26 +75,26 @@ const vector<string> osuParser::_modNames = {
 };
 
 // String names for each available game mode
-const vector<string> osuParser::_modeNames = {
+const vector<string> osu::parse::_modeNames = {
 	"Standard", "Taiko", "Catch The Beat", "Mania"
 };
 
 // String names for each available sample set
-const vector<string> osuParser::_sampleSetNames = {
+const vector<string> osu::parse::_sampleSetNames = {
 	"Auto", "Normal", "Soft", "Drum"
 };
 
 // String names for each available beatmap event
-const vector<string> osuParser::_eventNames = {
+const vector<string> osu::parse::_eventNames = {
 	"Background", "Video", "Break", "Unknown"
 };
 
 // String names for each available hit sound type
-const vector<string> osuParser::_hitSoundNames = {
+const vector<string> osu::parse::_hitSoundNames = {
 	"Normal", "Whistle", "Finish", "Clap"
 };
 
 // String names for each available slider type
-const vector<string> osuParser::_sliderNames = {
+const vector<string> osu::parse::_sliderNames = {
 	"Linear", "Perfect", "Bezier", "Catmull"
 };

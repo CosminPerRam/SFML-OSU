@@ -15,14 +15,15 @@
 #include "game/states/paused.h"
 #include "game/states/results.h"
 
-#include "game/osu/osu!parser.h"
+#include "game/osu/OsuParser.h"
+#include "game/osu/OsTypes.h"
 
 namespace game::states
 {
 	class playing : public state
 	{
 	public:
-		playing(engine::Game& game, osuParser::OsuParser map) : state(game)
+		playing(engine::Game& game, osu::parse::OsuParser map) : state(game)
 		{
 			globals::gamesession.play(map);
 

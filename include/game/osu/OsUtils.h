@@ -6,8 +6,7 @@
 //                                                            //
 ////////////////////////////////////////////////////////////////
 
-#ifndef OSU_PARSER_UTILS_H
-#define OSU_PARSER_UTILS_H
+#pragma once
 
 #include <algorithm>
 #include <cctype>
@@ -19,7 +18,7 @@
 
 #define IsBitSet(variable, bitNumber) bool((variable) & (1 << (bitNumber)))
 
-namespace osuParser
+namespace osu::parse
 {
 	// Splits a string into multiple parts with given delimiter
 	//   str, string, string to split
@@ -102,5 +101,3 @@ namespace osuParser
 		return defaultTo;
 	}
 }
-
-#endif

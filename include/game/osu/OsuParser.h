@@ -8,16 +8,14 @@
 
 #pragma once
 
-#ifndef OSU_PARSER_OSU_H
-#define OSU_PARSER_OSU_H
-
 #include <sstream>
 #include <fstream>
-#include "./game/osu/OsTypes.h"
-#include "./game/osu/OsUtils.h"
 #include <iostream>
 
-namespace osuParser
+#include "./game/osu/OsTypes.h"
+#include "./game/osu/OsUtils.h"
+
+namespace osu::parse
 {
 	// Object for parsing "*.osu" files from preloaded stream
 	// For file format please visit: https://osu.ppy.sh/help/wiki/osu!_File_Formats/Osu_(file_format)
@@ -205,5 +203,3 @@ namespace osuParser
 		std::ifstream _s;
 	};
 }
-
-#endif
