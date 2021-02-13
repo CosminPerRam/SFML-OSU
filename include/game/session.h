@@ -118,7 +118,7 @@ namespace game
 		std::vector<osu::parse::HitObject> hitObjects;
 
 		std::vector<osu::render::HitObject> renderHitObjects;
-		std::vector<osu::render::TextObject> dynamicObjects;
+		std::vector<std::unique_ptr<osu::render::Object>> dynamicObjects;
 
 		sf::Clock m_time;
 		sf::Time m_timeRemainder;

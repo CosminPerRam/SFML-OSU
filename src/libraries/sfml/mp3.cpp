@@ -218,4 +218,7 @@ namespace sfe
         delete rawMp3Data;
     }
 
+    unsigned Mp3::getDuration() {
+        return mpg123_framelength(myHandle) * mpg123_tpf(myHandle) * 1000;
+    }
 } // namespace sfe

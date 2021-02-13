@@ -20,6 +20,8 @@ namespace sfe
         bool openFromFile(const std::string& filename);
         bool openFromMemory(void* data, size_t sizeInBytes);
 
+        unsigned getDuration();
+
     protected:
         bool onGetData(Chunk& data);
         void onSeek(sf::Time timeOffset);

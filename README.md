@@ -10,9 +10,14 @@ This project is not intended to be a remake of the entire game in C++, it's more
  - [SFML-2.5.1](https://www.sfml-dev.org)
  - [nlohmann](https://github.com/nlohmann/json)
  - [imgui](https://github.com/ocornut/imgui) (and the sfml support)
- - [lzma](https://docs.python.org/3/library/lzma.html) (for using @HaselLoyance's [OsuParser](https://github.com/HaselLoyance/osu-parser))
- - [mpg123](https://www.mpg123.de) (to use the [Mp3 Player](https://github.com/SFML/SFML/wiki/Source%3A-MP3-Player) by MickaGL)
+ - [lzma](https://docs.python.org/3/library/lzma.html)
+ - [mpg123](https://www.mpg123.de)
  - [thor](https://bromeon.ch/libraries/thor/index.html)
+
+## Others
+ - [@HaselLoyance](https://github.com/HaselLoyance)'s [OsuParser](https://github.com/HaselLoyance/osu-parser) (modified)
+ - @MickaGL's [SFML MP3 Player Extension](https://github.com/SFML/SFML/wiki/Source%3A-MP3-Player)
+ - [@chen0040](https://github.com/chen0040)'s [Spline library](https://github.com/chen0040/cpp-spline) (modified)
 
 ## Releases
 Head over to [releases](https://github.com/CosminPerRam/SFML-OSU/releases) to check out the latest release!

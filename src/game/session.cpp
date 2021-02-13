@@ -30,6 +30,8 @@ void game::session::play(osu::parse::OsuParser map, std::vector<unsigned> mods)
 	m_time.restart();
 
 	music.play(map.m_folder + "/" + map.audioFilename);
+
+	dynamicObjects.push_back(std::make_unique<osu::render::TimeRemained>(getMapTime(), music.getDuration(), sf::Vector2f(0, 700)));
 }
 
 void game::session::restart() {
@@ -55,57 +57,63 @@ void game::session::handleInput()
 
 void game::session::handleEvent(sf::Event e)
 {
-	if (e.type == sf::Event::MouseButtonPressed) {
-		if (e.mouseButton.button == sf::Mouse::Left) {
-			for (auto obj = renderHitObjects.begin(); obj != renderHitObjects.end(); ) {
-				sf::Vector2f circleCoords = osu::math::screenPosition(obj->getCoords());
-				if (engine::math::sqroot((e.mouseButton.x - circleCoords.x) * (e.mouseButton.x - circleCoords.x) +
-					(e.mouseButton.y - circleCoords.y) * (e.mouseButton.y - circleCoords.y)) < c_CS * m_map.CS * 2) {
-					float hitRemainedTime = std::abs(obj->getTime() - float(getMapTime()));
-					float timeRemainedPrecentage = hitRemainedTime / c_AR;
+	for (auto obj = renderHitObjects.begin(); obj != renderHitObjects.end(); ) {
+		unsigned hitRemainedTime = obj->handleEvent(e, getMapTime());
 
-					s_combo++;
-
-					if (hitRemainedTime < c_perfectsWindow) {
-						s_nPerfects++;
-						s_score += s_combo * 300;
-						dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, circleCoords, "300"));
-					}
-					else if (hitRemainedTime < c_hundredsWindow) {
-						s_nHundreds++;
-						s_score += s_combo * 300;
-						dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, circleCoords, "100"));
-					}
-					else if (hitRemainedTime < c_fiftiesWindow) {
-						s_nFifties++;
-						s_score += s_combo * 300;
-						dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, circleCoords, "50"));
-					}
-					else {
-						s_resetCombo();
-						s_nMisses++;
-						dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, circleCoords, "X"));
-					}
-
-					s_updateAccuracy();
-
-					obj = renderHitObjects.erase(obj);
-					return;
-				}
-				else
-					obj++;
-			}
+		if (hitRemainedTime == 0) {
+			obj++;
+			continue;
 		}
+
+		s_combo++;
+
+		sf::Vector2f circleCoords = osu::math::screenPosition(obj->getCoords());
+
+		if (hitRemainedTime < c_perfectsWindow) {
+			s_nPerfects++;
+			s_score += s_combo * 300;
+			dynamicObjects.push_back(std::make_unique<osu::render::TextObject>(getMapTime() + 500, circleCoords, "300"));
+		}
+		else if (hitRemainedTime < c_hundredsWindow) {
+			s_nHundreds++;
+			s_score += s_combo * 300;
+			dynamicObjects.push_back(std::make_unique<osu::render::TextObject>(getMapTime() + 500, circleCoords, "100"));
+		}
+		else if (hitRemainedTime < c_fiftiesWindow) {
+			s_nFifties++;
+			s_score += s_combo * 300;
+			dynamicObjects.push_back(std::make_unique<osu::render::TextObject>(getMapTime() + 500, circleCoords, "50"));
+		}
+		else {
+			s_resetCombo();
+			s_nMisses++;
+			dynamicObjects.push_back(std::make_unique<osu::render::TextObject>(getMapTime() + 500, circleCoords, "X"));
+		}
+
+		s_updateAccuracy();
+
+		obj = renderHitObjects.erase(obj);
 	}
 }
 
 void game::session::update(sf::Time deltaTime)
 {
+	unsigned mapTime = getMapTime();
+
 	if (hitObjects.size() > 0) {
-		if (getMapTime() + c_AR > hitObjects[0].time) {
+		if (mapTime + c_AR > hitObjects[0].time) {
 			renderHitObjects.push_back(osu::render::HitObject(hitObjects[0], m_map.CS, c_CS, c_AR));
+
 			hitObjects.erase(hitObjects.begin());
 		}
+	}
+
+	for (auto& obj : renderHitObjects) {
+		obj.update(mapTime);
+	}
+
+	for (auto& obj : dynamicObjects) {
+		obj->update(mapTime);
 	}
 }
 
@@ -117,25 +125,31 @@ void game::session::fixedUpdate(sf::Time deltaTime)
 void game::session::render(sf::RenderTarget& renderer)
 {
 	for (auto obj = renderHitObjects.begin(); obj != renderHitObjects.end(); ) {
-		obj->render(renderer, getMapTime());
+		obj->render(renderer);
 
 		if (obj->getTime() < getMapTime())
 		{
+			if (obj->isCompleted())
+			{
+				obj = renderHitObjects.erase(obj);
+				continue;
+			}
+
 			s_resetCombo();
 			s_nMisses++;
 			s_updateAccuracy();
-			dynamicObjects.push_back(osu::render::TextObject(getMapTime() + 500, osu::math::screenPosition(obj->getCoords()), "X"));
+			dynamicObjects.push_back(std::make_unique<osu::render::TextObject>(getMapTime() + 500, osu::math::screenPosition(obj->getCoords()), "X"));
 
 			obj = renderHitObjects.erase(obj);
 		}
 		else
 			obj++;
 	}
-
+	
 	for (auto obj = dynamicObjects.begin(); obj != dynamicObjects.end(); ) {
-		obj->render(renderer);
+		obj->get()->render(renderer);
 
-		if (obj->getTime() < getMapTime())
+		if (obj->get()->getTime() < getMapTime())
 			obj = dynamicObjects.erase(obj);
 		else
 			obj++;

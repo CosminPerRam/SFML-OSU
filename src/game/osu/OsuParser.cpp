@@ -650,33 +650,16 @@ osu::parse::HitObject osu::parse::OsuParser::_ParseFieldAsHitObject(const string
 		o.slider.duration = (o.slider.length * o.slider.nRepeats) / (100.0 * sliderMultiplier) * timingPoints[_tpIndex].adjustedMsPerBeat;
 		o.slider.end = o.time + o.slider.duration;
 
+		//fix parsing after edgesounds (maybe map version problem?), see file format
 		if (args.size() > 9) { //there might be incomplete slider hitobjects
 			SplitString(args[8], "|", params);
 
 			for (size_t i = 0; i < params.size(); i++)
 				o.slider.edgeHitSounds.push_back((HitSoundMask)stoi(params[i]));
-
-			SplitString(args[9], "|", params);
-
-			for (size_t i = 0; i < params.size(); i++)
-			{
-				vector<string> values;
-				SplitString(params[i], ":", values);
-
-				o.slider.curvePoints.push_back({
-					(uint16_t)stoi(values[0]),
-					(uint16_t)stoi(values[1]),
-					});
-			}
 		}
 		else { //and if not, fill them with default values
 			for (int i = 0; i < 2; i++) {
 				o.slider.edgeHitSounds.push_back((HitSoundMask)0);
-
-				o.slider.curvePoints.push_back({
-						(uint16_t)0,
-						(uint16_t)0,
-					});
 			}
 		}
 	}
